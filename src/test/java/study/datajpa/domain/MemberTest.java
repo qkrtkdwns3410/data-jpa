@@ -2,14 +2,12 @@ package study.datajpa.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.List;
 
 
 @SpringBootTest
@@ -45,9 +43,13 @@ class MemberTest {
         em.clear();
         
         //확인
-        em.createQuery("select m from Member  m");
-        //then
-        assertThat();
+        List<Member> members = em.createQuery("select m from Member  m", Member.class).getResultList();
+        for (Member member : members) {
+            System.out.println("member = " + member);
+            System.out.println("member.getTeam() = " + member.getTeam());
+            
+        }
+        
     }
     
 }
