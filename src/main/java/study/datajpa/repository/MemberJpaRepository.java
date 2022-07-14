@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import study.datajpa.domain.Member;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,6 +82,15 @@ public class MemberJpaRepository {
                               + "where m.age  = :age", Long.class)
                  .setParameter("age", age)
                  .getSingleResult();
+    }
+
+    public int bulkAgePlus(int age) {
+
+        return em.createQuery("update Member  m " +
+                              "set m.age = m.age +1 " +
+                              "where m.age >= :age")
+                 .setParameter("age", age)
+                 .executeUpdate();
     }
 
 }
