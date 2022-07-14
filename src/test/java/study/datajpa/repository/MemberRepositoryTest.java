@@ -7,8 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-import study.datajpa.domain.Member;
-import study.datajpa.domain.Team;
+import study.datajpa.entity.Member;
+import study.datajpa.entity.Team;
 import study.datajpa.dto.MemberDto;
 
 import javax.persistence.EntityManager;
@@ -258,6 +258,37 @@ class MemberRepositoryTest {
         }
         //then
         assertThat(members.size()).isEqualTo(2);
+    }
+    
+    @Test
+    public void quertHint() {
+        // given
+        Member member1 = memberRepository.save(new Member("member1", 10));
+        em.flush(); // 강제 flush > 쿼리 나감
+        em.clear(); // 영속성 컨텍스트에 1차 캐시를 db에 동기화 ( flush ) > clear 영속성 컨텍스트에 자료 X > DB에서 조회
+        
+        // when
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("member2");
+        
+        em.flush();
+    }
+    
+    @Test
+    public void lock() {
+        // given
+        Member member1 = memberRepository.save(new Member("member1", 10));
+        em.flush(); // 강제 flush > 쿼리 나감
+        em.clear(); // 영속성 컨텍스트에 1차 캐시를 db에 동기화 ( flush ) > clear 영속성 컨텍스트에 자료 X > DB에서 조회
+        
+        // when
+        memberRepository.findLockByUsername("member1");
+    }
+    
+    @Test
+    public void callCustom() {
+        List<Member> result = memberRepository.findMemberCustom();
+        
     }
     
 }

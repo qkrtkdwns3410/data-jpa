@@ -1,4 +1,4 @@
-package study.datajpa.domain;
+package study.datajpa.entity;
 
 import lombok.*;
 
@@ -21,7 +21,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(of = {"id", "username", "age"})
-public class Member {
+public class Member extends BaseTimeEntity {
     
     @Id
     @GeneratedValue
