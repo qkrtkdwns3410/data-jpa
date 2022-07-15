@@ -2,6 +2,7 @@ package study.datajpa.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import study.datajpa.entity.Member;
 
 
 /**
@@ -26,6 +27,12 @@ public class MemberDto {
         this.id = id;
         this.username = username;
         this.teamName = teamName;
+    }
+    
+    public MemberDto(Member member) {
+        this.id = member.getId();
+        this.username = member.getUsername();
+        
     }
     
 }
